@@ -1,5 +1,10 @@
 public class Main {
     public static void main(String[] args){
+        if (args.length<3){
+            System.out.println("za mało argumentów");
+            System.exit(1);
+        }
+
         int[] intArgs = new int[args.length];
 
         for (int i=0;i<3;i++) {
@@ -9,6 +14,7 @@ public class Main {
                 System.err.println("Failed trying to parse a non-numeric argument, " + args[i]);
             }
         }
+
         if(intArgs[2]==0) {
             System.err.println("Not enough arguments or 0 days were supplied");
         }

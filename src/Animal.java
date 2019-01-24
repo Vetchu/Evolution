@@ -5,7 +5,7 @@ public class Animal {
     private Integer energy=10;
     private Integer children=0;
     private Integer ancestors=0;
-
+    private Integer age=0;
 
     public Position getPosition(){
         return this.position;
@@ -38,12 +38,14 @@ public class Animal {
         this.energy=energy;
     }
 
-    public void calculateLife(Integer plusEnergy){
+    public void calculateLife(Integer[][] Plants){
+        Integer plusEnergy=Plants[this.getPosition().x][this.getPosition().y];
         this.energy+=plusEnergy;
         divide();
     }
 
     public boolean calculateDead(){
+        age++;
         energy--;
         return energy < 0;
     }
@@ -56,14 +58,15 @@ public class Animal {
                 ", energy=" + energy +
                 ", children= "+children+
                 ", ancestors= "+ancestors+
+                ", age= "+age+
                 '}';
     }
 
 
     private void divide(){
-        if(this.energy>200) {
+        if(this.age>5 && this.energy>200) {
             Animal child = new Animal(this.worldMap, new Position(this.position), new Gene(this.gene),this.energy/2);
-            child.ancestors=this.ancestors++;
+            child.ancestors=this.ancestors+1;
             child.gene.modifyGene();
             this.energy/=2;
             Position birthPosition;

@@ -11,6 +11,7 @@ public class WorldMap {
     private Integer daysPassed = 0;
     private Integer simulationDays=0;
 
+
     WorldMap(int width, int height,int days) {
         this.upperRight = new Position(width, height);
         this.lowerLeft = new Position(0, 0);
@@ -34,7 +35,7 @@ public class WorldMap {
 
     private void feedAllAnimals() {
         for (Animal animal : animals.values()) {
-                animal.calculateLife(Plants[animal.getPosition().x][animal.getPosition().y]);
+                animal.calculateLife(Plants);
                 Plants[animal.getPosition().x][animal.getPosition().y] = 0;
         }
     }
@@ -72,7 +73,6 @@ public class WorldMap {
             //jungle
             Plants[newPlant / this.upperRight.x/3][newPlant % this.upperRight.y/3] += 10;
         }
-
     }
 
     Position moveAnimal(Animal animal, Position position) {
@@ -94,19 +94,24 @@ public class WorldMap {
         return position;
     }
 
-
-    void init() {
+    private void setupPlants(){
         for (int i = 0; i < this.upperRight.x; i++) {
             for (int j = 0; j < this.upperRight.y; j++) {
                 Plants[i][j] = 0;
             }
         }
+        this.genPlants();
+    }
+
+    void init() {
+        setupPlants();
         this.place(new Animal(this, new Position(2, 2), new Gene(), 200));
         this.place(new Animal(this, 3, 4, new Gene(), 200));
-        this.genPlants();
+
         for (int i = 0; i < this.simulationDays; i++) {
             passADay();
         }
+
         System.out.println(dumpAnimalData());
         System.out.println(new MapVisualizer().dump(this, this.lowerLeft, this.upperRight));
     }
@@ -114,11 +119,11 @@ public class WorldMap {
     private String dumpAnimalData(){
         StringBuilder bob=new StringBuilder();
         for (Animal animal:animals.values()) {
-            bob.append(animal.toString()+"\n");
-            System.out.println(animal);
+            bob.append(animal.toString()).append("\n");
         }
         return bob.toString();
     }
+
     Integer[][] getPlants(){
         return Plants;
     }

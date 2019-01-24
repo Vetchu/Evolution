@@ -1,5 +1,3 @@
-import javafx.util.Pair;
-
 import java.util.Random;
 
 public class RandomFactory {
@@ -12,7 +10,6 @@ public class RandomFactory {
         if(number==4){
             return new Position(-1,1);
         }
-        Position addPosition= new Position(number/3-1,number%3-1);
-        return addPosition;
+        return new Position(number/3-1,number%3-1);
     }
 }
